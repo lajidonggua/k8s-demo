@@ -122,6 +122,3 @@ export KUBECONFIG="/etc/kubernetes/admin.conf"
 # 执行一下
 source /etc/profile
 ```
-
-
-
