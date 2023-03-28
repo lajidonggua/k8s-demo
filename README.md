@@ -1,5 +1,10 @@
 # k8s-demo
 k8s demo 单机
+
+
+
+Main modify
+
 # 环境：
 腾讯云轻量服务器， centos
 cat /etc/redhat-release 查看版本
