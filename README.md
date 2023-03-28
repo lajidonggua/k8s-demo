@@ -1,10 +1,8 @@
 # k8s-demo
 k8s demo 单机
-
-
-
 Main modify
 Test2 commit
+test1 modify
 
 # 环境：
 腾讯云轻量服务器， centos
