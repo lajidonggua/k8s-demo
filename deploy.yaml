@@ -1,0 +1,52 @@
+apiVersion: apps/v1  #kubectl api-versions 可以通过这条指令去看版本信息
+kind: Deployment # 指定资源类别
+metadata: #资源的一些元数据
+  name: demo-deployment #deloyment的名称
+  labels:
+    app: demo  #标签
+  namespace: demo-app
+spec:
+  replicas: 2 #创建pod的个数
+  selector:
+    matchLabels:
+      app: demo #满足标签为这个的时候相关的pod才能被调度到
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      imagePullSecrets:
+        - name: registry-key
+      containers:
+        - name: demo
+          image: registry.docker.yummydo.top/demo:latest
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - |
+                    curl -f -d '{"state":"STOPPED"}' -H "Content-Type: application/json" -X POST http://localhost:8080/actuator/bindings/functionRouter-in-0 &&
+                    curl -f -d '{"state":"STOPPED"}' -H "Content-Type: application/json" -X POST http://localhost:8080/actuator/bindings/reply-in-0
+          env:
+            - name: TZ
+              value: Asia/Shanghai
+          ports:
+            - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-service
+  namespace: demo-app
+spec:
+  type: NodePort
+  selector:
+    app: demo
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30001
