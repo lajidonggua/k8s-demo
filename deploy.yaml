@@ -1,3 +1,10 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: demo-app
+
+---
+
 apiVersion: apps/v1  #kubectl api-versions 可以通过这条指令去看版本信息
 kind: Deployment # 指定资源类别
 metadata: #资源的一些元数据
@@ -49,4 +56,4 @@ spec:
   ports:
     - port: 8080
       targetPort: 8080
-      nodePort: 30001
+      nodePort: 30002
